@@ -27,7 +27,7 @@ world: RG351P RG351V
 
 RG351P: p-arm p-aarch64
 
-RG351V: echo "building dogecoin..."
+RG351V: echo "building - nope - nerfed..."
 
 p-arm:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
