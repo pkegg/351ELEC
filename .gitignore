@@ -1,4 +1,4 @@
-# build directorys
+# build directorys --
 /build.*/
 /.fakeroot.*
 #another change
