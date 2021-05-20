@@ -27,7 +27,7 @@ world: RG351P RG351V
 
 RG351P: p-arm p-aarch64
 
-RG351V: echo "some cool legit change...test2"
+RG351V: echo "some cool legit change...test4"
 
 p-arm:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
