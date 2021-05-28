@@ -1,5 +1,5 @@
 BUILD_DIRS=build.*
-#test
+#test2
 all:
 
 system:
