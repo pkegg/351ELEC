@@ -1,6 +1,7 @@
 * text=auto eol=lf
 *.patch -text
 
+
 # build directorys
 /build.*/
 /.fakeroot.*
