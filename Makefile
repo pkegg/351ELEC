@@ -1,5 +1,5 @@
 BUILD_DIRS=build.*
-#test -24434l
+#test
 
 all:
 
