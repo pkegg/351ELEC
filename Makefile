@@ -1,5 +1,5 @@
 BUILD_DIRS=build.*
-#make d
+#make d3
 all:
 
 system:
