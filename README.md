@@ -1,5 +1,5 @@
 # 351ELEC
-[![main](https://github.com/pkegg/351ELEC/actions/workflows/build-main.yml/badge.svg?branch=main)](https://github.com/pkegg/351ELEC/actions)
+[![main](https://github.com/pkegg/351ELEC/actions/workflows/build-main.yml/badge.svg?branch=main)](https://github.com/pkegg/351ELEC/actions/workflows/build-main.yml)
 
 An open source firmware for the Anbernic RG351P/M/V devices.
 
