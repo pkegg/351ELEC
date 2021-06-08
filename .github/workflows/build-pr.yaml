@@ -1,6 +1,6 @@
 name: build-pr
 on:
-  pull_request_target:
+  pull_request:
   
     # We don't need to run builds when these files change
 
@@ -29,15 +29,13 @@ jobs:
     # Only run if: 1. There are reviewers requested. 2. The branch is from the 351ELEC repo (and thus 'safe' to build as very few people should have access to create branches)
     if: | 
        github.event.pull_request.requested_reviewers[0] != null
-         || github.event.pull_request.head.repo.owner.login == '351ELEC'
+         || github.event.pull_request.head.repo.owner.login == 'pkegg'
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
         with:
           # clean: false ensures that we don't remove all the build files 
           clean: false
-          # pull requests require explicitly using the pr sha
-          ref: ${{ github.event.pull_request.head.sha }}
       
       - name: Get date for artifacts
         id: date
