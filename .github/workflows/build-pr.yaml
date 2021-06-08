@@ -1,6 +1,6 @@
 name: build-pr
 on:
-  pull_request_target:
+  pull_request:
   
     # We don't need to run builds when these files change
     paths-ignore:
