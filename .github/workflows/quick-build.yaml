@@ -65,7 +65,7 @@ jobs:
         with:
           clean: false
           # pull requests require explicitly using the pr sha
-          #ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/checkout@v2
         if: ${{ github.event_name != 'pull_request_target' }}
         name: checkout
