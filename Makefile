@@ -19,7 +19,7 @@ clean:
 
 distclean:
 	rm -rf ./.ccache ./$(BUILD_DIRS)
-
+#old-pr doing something
 src-pkg:
 	tar cvJf sources.tar.xz sources .stamps
 
