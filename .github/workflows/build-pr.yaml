@@ -1,7 +1,5 @@
 name: build-pr
 on:
-  pull_request_review:
-    types: [submitted]
   pull_request:
   
     # We don't need to run builds when these files change
@@ -37,12 +35,6 @@ jobs:
   build:
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
-
-    # Only run if: 1. There are reviewers requested. 2. The branch is from the 351ELEC repo (and thus 'safe' to build as very few people should have access to create branches)
-    if: | 
-       github.event.pull_request.requested_reviewers[0] != null
-         || github.event.pull_request.head.repo.owner.login == 'pkegg'
-         || ( github.event.pull_request.requested_reviewers[0] == null && github.event.review.state == 'approved')
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
