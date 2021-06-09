@@ -1,5 +1,7 @@
 name: build-pr
 on:
+  pull_request_review:
+    types: [submitted]
   pull_request:
   
     # We don't need to run builds when these files change
