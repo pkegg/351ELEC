@@ -21,6 +21,16 @@ concurrency:
   group: pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true #only 1 build at a time per PR
 jobs:
+  debug:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: hmarr/debug-action@v2
+      - name: other debug info
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+          echo "sha: ${{ github.sha }}"
   build:
     runs-on: pr
     if: | 
