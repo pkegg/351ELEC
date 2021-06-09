@@ -42,6 +42,7 @@ jobs:
     if: | 
        github.event.pull_request.requested_reviewers[0] != null
          || github.event.pull_request.head.repo.owner.login == 'pkegg'
+         || ( github.event.pull_request.requested_reviewers[0] == null && github.event.review.state == 'approved')
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
