@@ -1,0 +1,37 @@
+name: build-main
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - 'README.me'
+      - 'Dockerfile'
+      - '.dockerignore'
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: main
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+        with:
+          clean: false
+      - name: Build rg351
+        run: |
+            set -e
+            make docker-world
+            rm -rf release/aarch64/RG351*/*.system*
+            rm -rf release/aarch64/RG351*/*.img.gz*
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-v
+          path: |
+            release/aarch64/RG351V/
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-p
+          path: |
+            release/aarch64/RG351P/
