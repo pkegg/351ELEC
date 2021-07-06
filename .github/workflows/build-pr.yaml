@@ -21,7 +21,7 @@ concurrency:
 jobs:
   build:
     # Run on self-hosted runners with the 'pr' label
-    runs-on: pr
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         name: checkout (pull request)
