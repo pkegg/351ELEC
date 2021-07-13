@@ -17,15 +17,15 @@ jobs:
         - name: changes
           id: changes
           run: |
-              
-              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
-              git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline
+      
+              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
+
         - name: test
           run: |
               echo "num: ${{steps.changes.outputs.changes}}"
               
         - name: Repository Dispatch
-          if: steps.commits.outputs.changes != '0'
+          if: steps.changes.outputs.changes != '0'
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GH_TOKEN }}
