@@ -6,6 +6,10 @@ on:
         description: 'Create draft release (ex: 20210603)'     
         required: false
         default: ''
+      draftReleaseName:
+        description: 'Release Name (ex: Crazy Hedgehog)'
+        required: false
+        default: ''
   push:
     paths-ignore:
       - '.github/**'
@@ -97,10 +101,23 @@ jobs:
         if: github.event.inputs.draftRelease != '' 
         with:
           tag_name: "${{ steps.version.outputs.version }}"
+          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.draftReleaseName }}"
           body: |
-            This release is: ${{ steps.version.outputs.version }}
+            # Release Notes
+            Welcome to the ${{ github.event.inputs.draftReleaseName }} (${{ steps.version.outputs.version }}) release.
             
-            You can update to it using the `release` channel on your device.
+            General:
+            
+            New Stuff:
+
+            Fixes:
+            
+            **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
+
+            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
