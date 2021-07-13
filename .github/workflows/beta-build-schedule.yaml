@@ -14,18 +14,15 @@ jobs:
           with:
             clean: false
             fetch-depth: 0
-        - name: commits
+        - name: changes
+          id: changes
           run: |
-              #git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline
-              #CHANGES_SINCE_LAST_RELEASE="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
-              #NUM_CHANGES=$(echo "${CHANGES_SINCE_LAST_RELEASE}"|wc -l)
-              #echo "num changes: ${NUM_CHANGES}"
-              #echo "changes: ${CHANGES_SINCE_LAST_RELEASE}"
-              #echo "::set-output name=changes::\"${CHANGES_SINCE_LAST_RELEASE}\""
+              
               echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline
         - name: test
           run: |
-              echo "num: ${{steps.commits.outputs.changes}}"
+              echo "num: ${{steps.changes.outputs.changes}}"
               
         - name: Repository Dispatch
           if: steps.commits.outputs.changes != '0'
