@@ -1,6 +1,11 @@
 name: build-main
 on:
   workflow_dispatch:
+    inputs:
+      draftRelease:
+        description: 'Create draft release (ex: 20210603)'     
+        required: false
+        default: ''
   push:
     paths-ignore:
       - '.github/**'
@@ -29,19 +34,31 @@ jobs:
       - name: Get short SHA for artifacts
         id: sha
         run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
-      - name: Get dev version
+      - name: Get dev (or draft release) version
         id: version
-        run: echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+        run: |
+           set -e
+           if [[ "${{ github.event.inputs.draftRelease }}" == "" }} ]]; then
+               echo "::set-output name=version::{{ github.event.inputs.draftRelease }}"
+           else
+               echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+           fi
       - name: Build rg351P
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351P
+            #make DOCKER_WORK_DIR=/work docker-RG351P
+            mkdir -p release/aarch64/RG351P/
+            echo "testing" > release/aarch64/RG351P/rg351p.tar
       - name: Build rg351V
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351V
+            #make DOCKER_WORK_DIR=/work docker-RG351V
+            mkdir -p release/aarch64/RG351V/
+
+            echo "testing" > release/aarch64/RG351V/rg351v.tar
+
       - name: Cleanup system artifacts
         run: |
             set -e
@@ -60,8 +77,9 @@ jobs:
       #    name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
       #    path: |
       #      release/aarch64/RG351P/
-      - name: Release
+      - name: Create pre-release
         uses: softprops/action-gh-release@v1
+        if: ${{ github.event.inputs.draftRelease }} == ""
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           body: |
@@ -71,8 +89,24 @@ jobs:
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
-
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create draft release
+        uses: softprops/action-gh-release@v1
+        if: ${{ github.event.inputs.draftRelease }} != ""
+        with:
+          tag_name: "${{ steps.version.outputs.version }}"
+          body: |
+            This release is: 
+            
+            You can update to it using the `release` channel on your device.
+          files: |
+            release/aarch64/RG351P/*
+            release/aarch64/RG351V/*
+          prerelease: false
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
