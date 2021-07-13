@@ -30,7 +30,7 @@ jobs:
             client-payload: |
                { 
                   "inputs" : {
-                    "release_tag" : ""
+                    "release_tag" : "1234"
                   }
                }
             
