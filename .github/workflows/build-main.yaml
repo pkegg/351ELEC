@@ -58,13 +58,13 @@ jobs:
             rm -rf release/aarch64/RG351*/*.kernel*
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v2
-        if: github.event.inputs.release_tag == ""
+        if: github.event.release_tag == ''
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
-        if: github.event.inputs.release_tag == ""
+        if: github.event.release_tag == ""
         uses: actions/upload-artifact@v2
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
@@ -87,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create draft release
         uses: softprops/action-gh-release@v1
-        if: github.event.inputs.release_tag != ''
+        if: github.event.release_tag != ''
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.release_name }}"
