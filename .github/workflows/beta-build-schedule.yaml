@@ -5,6 +5,7 @@ on:
     - cron:  '0 0 * * *'
   workflow_dispatch:  # allows manual runs
 
+    
 jobs:
   commits:
       runs-on: ubuntu-20.04
@@ -17,17 +18,13 @@ jobs:
         - name: changes
           id: changes
           run: |
-      
               echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
-
-        - name: test
-          run: |
-              echo "num: ${{steps.changes.outputs.changes}}"
-              
+  
         - name: Repository Dispatch
           if: steps.changes.outputs.changes != '0'
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GH_TOKEN }}
             repository: pkegg/351ELEC
-            event-type: upstream-commit
+            event-type: beta-release
+            
