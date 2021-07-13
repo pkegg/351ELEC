@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
     inputs:
       prerelease:
-        description: 'Create a pre-release'
+        description: 'Create a pre-release (requires tag)'
         default: 'false'
       draft:
-        description: 'Create a draft release'
+        description: 'Create a draft release (requires tag)'
         default: 'false'
       release_tag:
         description: 'Release tag. Ex: 20210603)'     
