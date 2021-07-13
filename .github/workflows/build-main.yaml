@@ -1,21 +1,7 @@
 name: build-main
 on:
-  workflow_dispatch:
-    inputs:
-      prerelease:
-        description: 'Create a pre-release (requires tag)'
-        default: 'false'
-      draft:
-        description: 'Create a draft release (requires tag)'
-        default: 'false'
-      release_tag:
-        description: 'Release tag. Ex: 20210603)'     
-        required: false
-        default: ''
-      release_name:
-        description: 'Release Name (ex: Crazy Hedgehog)'
-        required: false
-        default: ''
+  repository_dispatch:
+    types: [beta-release, draft-release]
   push:
     paths-ignore:
       - '.github/**'
@@ -75,7 +61,6 @@ jobs:
         if: github.event.inputs.release_tag == ""
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-      
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
