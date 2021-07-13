@@ -2,12 +2,18 @@ name: build-main
 on:
   workflow_dispatch:
     inputs:
-      draftRelease:
-        description: 'Create Draft Release (ex: 20210603)'     
+      prerelease:
+        description: 'Create a pre-release'
+        default: 'true'
+      draft:
+        description: 'Create a draft release'
+        default: 'true'
+      release:
+        description: 'Release tag. Ex: 20210603)'     
         required: false
         default: ''
-      draftReleaseName:
-        description: 'Draft Release Name (ex: Crazy Hedgehog)'
+      releaseName:
+        description: 'Release Name (ex: Crazy Hedgehog)'
         required: false
         default: ''
   push:
@@ -42,10 +48,10 @@ jobs:
         id: version
         run: |
            set -e
-           if [[ "${{ github.event.inputs.draftRelease }}" == "" ]]; then
+           if [[ "${{ github.event.inputs.release }}" == "" ]]; then
                echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
            else
-               echo "::set-output name=version::${{ github.event.inputs.draftRelease }}"
+               echo "::set-output name=version::${{ github.event.inputs.release }}"
            fi
       - name: Build rg351P
         run: |
@@ -64,22 +70,24 @@ jobs:
             set -e
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.kernel*
-      #- name: Archive RG351V (${{github.sha}})
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-      #
-      #    path: |
-      #      release/aarch64/RG351V/
-      #- name: Archive RG351P (${{github.sha}})
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-      #    path: |
-      #      release/aarch64/RG351P/
+      - name: Archive RG351V (${{github.sha}})
+        uses: actions/upload-artifact@v2
+        if: github.event.inputs.release == ""
+        with:
+          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+      
+          path: |
+            release/aarch64/RG351V/
+      - name: Archive RG351P (${{github.sha}})
+        if: github.event.inputs.release == ""
+        uses: actions/upload-artifact@v2
+        with:
+          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+          path: |
+            release/aarch64/RG351P/
       - name: Create pre-release
+        if: github.event.inputs.release != "" && github.event.inputs.prerelease == "true"
         uses: softprops/action-gh-release@v1
-        if: github.event.inputs.draftRelease == '' 
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           body: |
@@ -94,13 +102,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create draft release
         uses: softprops/action-gh-release@v1
-        if: github.event.inputs.draftRelease != '' 
+        if: github.event.inputs.release != "" && github.event.inputs.draft == 'true' 
         with:
           tag_name: "${{ steps.version.outputs.version }}"
-          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.draftReleaseName }}"
+          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.releaseName }}"
           body: |
             # Release Notes
-            Welcome to the ${{ github.event.inputs.draftReleaseName }} (${{ steps.version.outputs.version }}) release.
+            Welcome to the ${{ github.event.inputs.releaseName }} (${{ steps.version.outputs.version }}) release.
             
             General:
             
