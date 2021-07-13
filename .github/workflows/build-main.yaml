@@ -38,10 +38,10 @@ jobs:
         id: version
         run: |
            set -e
-           if [[ -n "${{ github.event.inputs.draftRelease }}" ]]; then
-               echo "::set-output name=version::{{ github.event.inputs.draftRelease }}"
-           else
+           if [[ "${{ github.event.inputs.draftRelease }}" != "" ]]; then
                echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+           else
+               echo "::set-output name=version::{{ github.event.inputs.draftRelease }}"
            fi
       - name: Build rg351P
         run: |
