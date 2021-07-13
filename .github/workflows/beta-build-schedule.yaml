@@ -1,0 +1,33 @@
+
+name: beta-build-schedule
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+  workflow_dispatch:  # allows manual runs
+
+jobs:
+
+  trigger:
+      runs-on: ubuntu-20.04
+
+      steps:
+      
+        - uses: actions/checkout@v2
+          name: checkout
+          with:
+            clean: false
+            fetch-depth: 0
+        - name: commits
+          run: |
+              CHANGES_SINCE_LAST_RELEASE="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              NUM_CHANGES=$(echo "${CHANGES_SINCE_LAST_RELEASE}"|wc -l)
+              echo "::set-output name=changes::\"${CHANGES_SINCE_LAST_RELEASE}\""
+              echo "::set-output name=num_changes::${NUM_CHANGES}"
+
+        - name: Repository Dispatch
+          if: ${{ steps.commits.outputs.num_changes != '0' }}
+          uses: peter-evans/repository-dispatch@v1
+          with:
+            token: ${{ secrets.GH_TOKEN }}
+            repository: pkegg/351ELEC
+            event-type: upstream-commit
