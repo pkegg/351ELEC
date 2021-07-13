@@ -1,0 +1,21 @@
+name: Main
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Generate Changelog
+        run: echo "# Good things have arrived" > test.release.tar
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            This release is super cool
+          files: |
+            test.release.tar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
