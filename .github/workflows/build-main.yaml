@@ -71,7 +71,7 @@ jobs:
           path: |
             release/aarch64/RG351P/
       - name: Create pre-release
-        if: github.event.inputs.release_tag != "" && github.event.inputs.prerelease == "true"
+        if: github.event.release_tag != ''
         uses: softprops/action-gh-release@v1
         with:
           tag_name: "${{ steps.version.outputs.version }}"
@@ -87,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create draft release
         uses: softprops/action-gh-release@v1
-        if: github.event.inputs.release_tag != "" && github.event.inputs.draft == 'true' 
+        if: github.event.inputs.release_tag != ''
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.release_name }}"
