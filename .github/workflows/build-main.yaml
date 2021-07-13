@@ -42,16 +42,32 @@ jobs:
             set -e
             rm -rf release/aarch64/RG351*/*.system*
             rm -rf release/aarch64/RG351*/*.kernel*
-      - name: Archive RG351V (${{github.sha}})
-        uses: actions/upload-artifact@v2
+      #- name: Archive RG351V (${{github.sha}})
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+      #
+      #    path: |
+      #      release/aarch64/RG351V/
+      #- name: Archive RG351P (${{github.sha}})
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+      #    path: |
+      #      release/aarch64/RG351P/
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
+          tag_name: "${{ steps.date.outputs.date }}"
+          body: |
+            This is a pre-release based on the commit: ${{github.sha}}.
+            
+            You can update to it using the `beta` channel on your device.
+          files: |
+            release/aarch64/RG351P/*
+            release/aarch64/RG351V/*
 
-          path: |
-            release/aarch64/RG351V/
-      - name: Archive RG351P (${{github.sha}})
-        uses: actions/upload-artifact@v2
-        with:
-          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG351P/
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
