@@ -19,6 +19,8 @@ jobs:
               git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline
               CHANGES_SINCE_LAST_RELEASE="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
               NUM_CHANGES=$(echo "${CHANGES_SINCE_LAST_RELEASE}"|wc -l)
+              echo "num changes: ${NUM_CHANGES}"
+              echo "changes: ${CHANGES_SINCE_LAST_RELEASE}"
               echo "::set-output name=changes::\"${CHANGES_SINCE_LAST_RELEASE}\""
               echo "::set-output name=num_changes::${NUM_CHANGES}"
 
