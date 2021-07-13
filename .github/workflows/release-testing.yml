@@ -23,5 +23,6 @@ jobs:
             This release is super cool
           files: |
             test.release.tar
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
