@@ -28,9 +28,13 @@ jobs:
             repository: pkegg/351ELEC
             event-type: beta-release
             client-payload: |
-               {
-                 "inputs": {
-                   "release_tag" : ""
+               { 
+                 "github": {
+                   "event": {
+                     "inputs": {
+                       "release_tag" : ""
+                     }
+                   }
                  }
                }
             
