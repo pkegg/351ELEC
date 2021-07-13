@@ -29,6 +29,8 @@ jobs:
             event-type: beta-release
             client-payload: |
                {
-                 "inputs": {}
+                 "inputs": {
+                   "release_tag" : ""
+                 }
                }
             
