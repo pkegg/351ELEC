@@ -17,15 +17,18 @@ jobs:
         - name: commits
           run: |
               #git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline
-              CHANGES_SINCE_LAST_RELEASE="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
-              NUM_CHANGES=$(echo "${CHANGES_SINCE_LAST_RELEASE}"|wc -l)
+              #CHANGES_SINCE_LAST_RELEASE="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              #NUM_CHANGES=$(echo "${CHANGES_SINCE_LAST_RELEASE}"|wc -l)
               #echo "num changes: ${NUM_CHANGES}"
               #echo "changes: ${CHANGES_SINCE_LAST_RELEASE}"
               #echo "::set-output name=changes::\"${CHANGES_SINCE_LAST_RELEASE}\""
-              echo "::set-output name=num_changes::${NUM_CHANGES}"
-
+              echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+        - name: test
+          run: |
+              echo "num: ${{steps.commits.outputs.changes}}"
+              
         - name: Repository Dispatch
-          if: steps.commits.outputs.num_changes != '0'
+          if: steps.commits.outputs.changes != '0'
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GH_TOKEN }}
