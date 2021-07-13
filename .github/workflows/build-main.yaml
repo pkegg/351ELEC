@@ -4,15 +4,15 @@ on:
     inputs:
       prerelease:
         description: 'Create a pre-release'
-        default: 'true'
+        default: 'false'
       draft:
         description: 'Create a draft release'
-        default: 'true'
-      release:
+        default: 'false'
+      release_tag:
         description: 'Release tag. Ex: 20210603)'     
         required: false
         default: ''
-      releaseName:
+      release_name:
         description: 'Release Name (ex: Crazy Hedgehog)'
         required: false
         default: ''
@@ -48,10 +48,10 @@ jobs:
         id: version
         run: |
            set -e
-           if [[ "${{ github.event.inputs.release }}" == "" ]]; then
+           if [[ "${{ github.event.inputs.release_tag }}" == "" ]]; then
                echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
            else
-               echo "::set-output name=version::${{ github.event.inputs.release }}"
+               echo "::set-output name=version::${{ github.event.inputs.release_tag }}"
            fi
       - name: Build rg351P
         run: |
@@ -72,21 +72,21 @@ jobs:
             rm -rf release/aarch64/RG351*/*.kernel*
       - name: Archive RG351V (${{github.sha}})
         uses: actions/upload-artifact@v2
-        if: github.event.inputs.release == ""
+        if: github.event.inputs.release_tag == ""
         with:
           name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
       
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
-        if: github.event.inputs.release == ""
+        if: github.event.inputs.release_tag == ""
         uses: actions/upload-artifact@v2
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
       - name: Create pre-release
-        if: github.event.inputs.release != "" && github.event.inputs.prerelease == "true"
+        if: github.event.inputs.release_tag != "" && github.event.inputs.prerelease == "true"
         uses: softprops/action-gh-release@v1
         with:
           tag_name: "${{ steps.version.outputs.version }}"
@@ -102,13 +102,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create draft release
         uses: softprops/action-gh-release@v1
-        if: github.event.inputs.release != "" && github.event.inputs.draft == 'true' 
+        if: github.event.inputs.release_tag != "" && github.event.inputs.draft == 'true' 
         with:
           tag_name: "${{ steps.version.outputs.version }}"
-          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.releaseName }}"
+          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.release_name }}"
           body: |
             # Release Notes
-            Welcome to the ${{ github.event.inputs.releaseName }} (${{ steps.version.outputs.version }}) release.
+            Welcome to the ${{ github.event.inputs.release_name }} (${{ steps.version.outputs.version }}) release.
             
             General:
             
