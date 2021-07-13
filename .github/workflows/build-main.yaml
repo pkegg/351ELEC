@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       draftRelease:
-        description: 'Create draft release (ex: 20210603)'     
+        description: 'Create Draft Release (ex: 20210603)'     
         required: false
         default: ''
       draftReleaseName:
-        description: 'Release Name (ex: Crazy Hedgehog)'
+        description: 'Draft Release Name (ex: Crazy Hedgehog)'
         required: false
         default: ''
   push:
@@ -51,17 +51,13 @@ jobs:
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            #make DOCKER_WORK_DIR=/work docker-RG351P
-            mkdir -p release/aarch64/RG351P/
-            echo "testing" > release/aarch64/RG351P/rg351p.tar
+            make DOCKER_WORK_DIR=/work docker-RG351P
+
       - name: Build rg351V
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            #make DOCKER_WORK_DIR=/work docker-RG351V
-            mkdir -p release/aarch64/RG351V/
-
-            echo "testing" > release/aarch64/RG351V/rg351v.tar
+            make DOCKER_WORK_DIR=/work docker-RG351V
 
       - name: Cleanup system artifacts
         run: |
