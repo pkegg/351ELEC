@@ -97,6 +97,7 @@ jobs:
         if: github.event.inputs.draftRelease != '' 
         with:
           tag_name: "${{ steps.version.outputs.version }}"
+          name: "${{ steps.version.outputs.version }}"
           body: |
             This release is: 
             
