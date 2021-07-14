@@ -2,12 +2,11 @@
 name: release-beta
 on:
   schedule:
-    - cron:  '*/5 * * * *'
+    - cron:  '42 21 * * *'
   workflow_dispatch:  # allows manual runs
-
     
 jobs:
-  commits:
+  launch-beta-release-if-needed:
       runs-on: ubuntu-20.04
       steps:
         - uses: hmarr/debug-action@v2
@@ -17,6 +16,10 @@ jobs:
           with:
             clean: false
             fetch-depth: 0
+        - name: repository full name
+          id: full_name
+          run: |
+               echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's/^.*://g' | sed 's/.git$//g')"
         - name: changes
           id: changes
           run: |
@@ -30,7 +33,7 @@ jobs:
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
-            repository: ${{ github.event.repository.full_name }}
+            repository: ${{ steps.full_name.outputs.full_name }}
             event-type: release-beta
             client-payload: |
                {
