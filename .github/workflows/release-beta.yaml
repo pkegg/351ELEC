@@ -29,6 +29,8 @@ jobs:
               echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
               
               release_notes="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              
+              #This escapes the return characters in the commit list
               release_notes="${release_notes//'%'/'%25'}"
               release_notes="${release_notes//$'\n'/'%0A'}"
               release_notes="${release_notes//$'\r'/'%0D'}"
