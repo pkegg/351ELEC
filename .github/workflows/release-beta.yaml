@@ -2,7 +2,7 @@
 name: release-beta
 on:
   schedule:
-    - cron:  '15 21 * * *'
+    - cron:  '*/5 * * * *'
   workflow_dispatch:  # allows manual runs
 
     
