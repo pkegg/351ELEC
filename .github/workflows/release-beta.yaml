@@ -2,7 +2,7 @@
 name: release-beta
 on:
   schedule:
-    - cron:  '40 20 * * *'
+    - cron:  '15 21 * * *'
   workflow_dispatch:  # allows manual runs
 
     
@@ -10,6 +10,8 @@ jobs:
   commits:
       runs-on: ubuntu-20.04
       steps:
+        - uses: hmarr/debug-action@v2
+          name: debug
         - uses: actions/checkout@v2
           name: checkout
           with:
