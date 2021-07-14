@@ -393,7 +393,7 @@ def get_args():
     if not args.existing_release:
         args.existing_release = get_existing_release()
     
-    args.existing_release = parse_release(args.existing_release)
+    args.existing_release = parse_release(args.existing_release, args.band)
     return args
 
 
