@@ -2,7 +2,7 @@
 name: release-beta
 on:
   schedule:
-    - cron:  '42 21 * * *'
+    - cron:  '55 21 * * *'
   workflow_dispatch:  # allows manual runs
     
 jobs:
@@ -26,7 +26,12 @@ jobs:
           id: changes
           run: |
               echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
-              echo "::set-output name=release_notes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              
+              release_notes="$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+              release_notes="${release_notes//'%'/'%25'}"
+              release_notes="${release_notes//$'\n'/'%0A'}"
+              release_notes="${release_notes//$'\r'/'%0D'}"
+              echo "::set-output name=release_notes::${release_notes}"
         - name: Get date for artifacts
           id: date
           run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
