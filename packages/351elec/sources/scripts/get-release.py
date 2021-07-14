@@ -74,7 +74,7 @@ def main():
 
     if args.force_update:
         message_stream(f"\nForcing update to {current_release}...")
-    elif args.existing_release and args.existing_release >= current_release:
+    elif not download_needed(args.existing_release, current_release):
         message_stream(
             f"\nExisting release ({args.existing_release}) >= current release ({current_release}). No download needed\n")
         message_stream_close()
@@ -105,6 +105,19 @@ def main():
         message_stream(
             f"\nFile: {os.path.basename(downloaded_file)} downloaded successfully.\n")
 
+def download_needed(existing_release, current_release):
+
+    if not existing_release:
+        return True
+
+    # If the current release is a real release and existing device release is not, still download.
+    #  This allows 'downgrading' from beta back to any release
+    if parse_release(current_release, "release") and not parse_release(existing_release, "release"):
+        return True
+
+    if existing_release < current_release:
+        return True
+    return False
 
 # Create any needed directories
 def initialize_directories(update_dir, check):
@@ -385,10 +398,11 @@ def get_args():
     
     if args.band == "daily":
         args.band = "release"
-    if not args.device and os.path.isfile(DEVICE_FILE):
-        args.device = load_file_to_string(DEVICE_FILE).strip()
-    else:
-        args.device="RG351P"
+    if not args.device:
+        if os.path.isfile(DEVICE_FILE):
+            args.device = load_file_to_string(DEVICE_FILE).strip()
+        else:
+            args.device="RG351P"
 
     if not args.existing_release:
         args.existing_release = get_existing_release()
