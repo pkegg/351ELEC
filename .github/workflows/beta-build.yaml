@@ -1,5 +1,5 @@
 
-name: beta-build-schedule
+name: beta-build
 on:
   schedule:
     - cron:  '0 0 * * *'
@@ -19,6 +19,8 @@ jobs:
           id: changes
           run: |
               echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline | wc -l)"
+              echo "::set-output name=release_notes::$(git log $(git describe --tags --abbrev=0)..HEAD --no-merges --oneline)"
+
         - name: Get date for artifacts
           id: date
           run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
@@ -32,7 +34,7 @@ jobs:
             client-payload: |
                { 
 
-                 "release_tag" : "beta-${{steps.date.outputs.date}}"
-                
+                 "release_tag" : "beta-${{steps.date.outputs.date}}",
+                 "release_notes" : "${{steps.changes.outputs.release_notes}}"
                }
             
