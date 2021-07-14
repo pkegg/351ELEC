@@ -47,6 +47,6 @@ jobs:
             client-payload: |
                {
                  "release_tag" : "beta-${{steps.date.outputs.date}}",
-                 "release_notes" : "${{steps.changes.outputs.release_notes}}"
+                 "release_notes" : "${{toJSON(steps.changes.outputs.release_notes)}}"
                }
             
