@@ -43,7 +43,7 @@ jobs:
           if: steps.changes.outputs.changes != '0'
           uses: peter-evans/repository-dispatch@v1
           with:
-            token: ${{ secrets.GH_TOKEN }}
+            token: ${{ secrets.GITHUB_TOKEN }}
             repository: pkegg/351ELEC
             event-type: release-draft
             client-payload: |
