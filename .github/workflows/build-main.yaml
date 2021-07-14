@@ -37,10 +37,10 @@ jobs:
         id: version
         run: |
            set -e
-           if [[ "${{ github.event.inputs.release_tag }}" == "" ]]; then
-               echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
+           if [[ "${{ github.event.action }}" == "beta-release" ]]; then
+               echo "::set-output name=version::${{ github.event.client_payload.release_tag }}"
            else
-               echo "::set-output name=version::${{ github.event.inputs.release_tag }}"
+               echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
            fi
       - name: Build rg351P
         run: |
@@ -67,14 +67,14 @@ jobs:
           path: |
             release/aarch64/RG351V/
       - name: Archive RG351P (${{github.sha}})
-        if: github.event.inputs.release_tag == ''
+        if: github.event.client_payload.release_tag == ''
         uses: actions/upload-artifact@v2
         with:
           name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
           path: |
             release/aarch64/RG351P/
       - name: Create pre-release
-        if: github.event.inputs.release_tag != ''
+        if: github.event.action == 'beta-release'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: "${{ steps.version.outputs.version }}"
@@ -90,7 +90,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create draft release
         uses: softprops/action-gh-release@v1
-        if: github.event.inputs.release_tag != ''
+        if: github.event.action == 'draft-release'
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.release_name }}"
