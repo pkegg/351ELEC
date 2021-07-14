@@ -107,10 +107,10 @@ jobs:
         if: github.event.action == 'draft-release'
         with:
           tag_name: "${{ steps.version.outputs.version }}"
-          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.inputs.release_name }}"
+          name: "351ELEC - ${{ steps.version.outputs.version }} - ${{ github.event.client_payload.release_name }}"
           body: |
             # Release Notes
-            Welcome to the ${{ github.event.inputs.release_name }} (${{ steps.version.outputs.version }}) release.
+            Welcome to the ${{ github.event.client_payload.release_name}} (${{ steps.version.outputs.version }}) release.
             
             General:
             
