@@ -79,13 +79,25 @@ jobs:
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           body: |
+            # Release Notes (Beta)
             This is a pre-release based on the commit: ${{github.sha}}.
-            Beta version: ${{ steps.version.outputs.version }}
+    
+            Beta releases are unstable and provided for the community.  Please DO NOT open issues on this build and instead post in the `#contribution-help` section of discord.
             
-            Changes since last beta version:
+            See the [wiki](https://github.com/351ELEC/351ELEC/wiki/Contributing-to-351ELEC#]) for more info.
+            
+            ### Changes (since last beta version):
             ${{ github.event.client_payload.release_notes }}
             
-            You can update to it using the `beta` channel on your device.
+            ### Upgrade Instructions
+            You can update to this release using the`beta` channel on your device.  This is the recommended way to use beta versions.
+            
+             **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
+
+            **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
