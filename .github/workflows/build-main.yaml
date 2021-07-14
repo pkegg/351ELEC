@@ -80,7 +80,11 @@ jobs:
           tag_name: "${{ steps.version.outputs.version }}"
           body: |
             This is a pre-release based on the commit: ${{github.sha}}.
-             ${{ steps.version.outputs.version }}
+            Beta version: ${{ steps.version.outputs.version }}
+            
+            Changes since last beta version:
+            ${{ github.event.client_payload.release_notes }}
+            
             You can update to it using the `beta` channel on your device.
           files: |
             release/aarch64/RG351P/*
