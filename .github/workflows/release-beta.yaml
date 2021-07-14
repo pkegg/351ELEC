@@ -1,5 +1,5 @@
 
-name: beta-build
+name: release-beta
 on:
   schedule:
     - cron:  '0 0 * * *'
