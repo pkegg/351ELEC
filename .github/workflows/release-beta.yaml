@@ -30,7 +30,7 @@ jobs:
           with:
             token: ${{ secrets.GH_TOKEN }}
             repository: pkegg/351ELEC
-            event-type: beta-release
+            event-type: release-beta
             client-payload: |
                { 
 
