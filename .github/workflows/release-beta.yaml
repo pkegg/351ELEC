@@ -22,6 +22,7 @@ jobs:
           id: full_name
           run: |
                echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's|^.*github.com/||g' | sed 's/.git$//g')"
+        
         - name: changes
           id: changes
           run: |
@@ -31,6 +32,7 @@ jobs:
               release_notes="${release_notes//'%'/'%25'}"
               release_notes="${release_notes//$'\n'/'%0A'}"
               release_notes="${release_notes//$'\r'/'%0D'}"
+              
               echo "::set-output name=release_notes::${release_notes}"
         - name: Get date for artifacts
           id: date
