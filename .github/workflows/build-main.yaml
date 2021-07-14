@@ -21,6 +21,8 @@ jobs:
   build:
     runs-on: main
     steps:
+      - uses: hmarr/debug-action@v2
+        name: debug
       - uses: actions/checkout@v2
         name: checkout
         with:
