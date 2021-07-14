@@ -24,7 +24,7 @@ jobs:
           id: date
           run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
         - name: cancelling
-          if: steps.changes.outputs.changes != '0'
+          if: steps.changes.outputs.changes == '0'
           uses: andymckay/cancel-action@0.2
         #- name: Repository Dispatch
         #  if: steps.changes.outputs.changes != '0'
