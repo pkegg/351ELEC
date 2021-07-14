@@ -50,6 +50,6 @@ jobs:
                { 
                  "release_tag" : "${{steps.version.outputs.version}}",
                  "release_notes" : "${{steps.changes.outputs.release_notes}}",
-                 "release_name" : "${{github.events.inputs.release_name}}"
+                 "release_name" : "${{github.event.inputs.release_name}}"
                }
             
