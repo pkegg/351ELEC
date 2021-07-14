@@ -43,7 +43,7 @@ jobs:
           if: steps.changes.outputs.changes != '0'
           uses: peter-evans/repository-dispatch@v1
           with:
-            token: ${{ secrets.GITHUB_BUILD_PAT_TOKEN }}
+            token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
             repository: ${{ github.event.repository.full_name }}
             event-type: release-draft
             client-payload: |
