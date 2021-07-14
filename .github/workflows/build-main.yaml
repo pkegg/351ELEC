@@ -1,7 +1,7 @@
 name: build-main
 on:
   workflow_run:
-    workflows: [release-beta]
+    workflows: [release-beta, release-draft]
     types:
       - completed
   repository_dispatch:
