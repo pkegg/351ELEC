@@ -37,6 +37,7 @@ jobs:
         id: version
         run: |
            set -e
+           echo "full name: ${{ github.event.repository.full_name }}"
            if [[ "${{ github.event.client_payload.release_tag }}" != "" ]]; then
                echo "::set-output name=version::${{ github.event.client_payload.release_tag }}"
            else
@@ -84,7 +85,7 @@ jobs:
     
             Beta releases are unstable and provided for the community.  Please DO NOT open issues on this build and instead post in the `#contribution-help` section of discord.
             
-            See the [wiki](https://github.com/351ELEC/351ELEC/wiki/Contributing-to-351ELEC#]) for more info.
+            See the [wiki](https://github.com/${{ github.event.repository.full_name }}/wiki/Contributing-to-351ELEC#]) for more info.
             
             ### Changes (since last beta version):
             ${{ github.event.client_payload.release_notes }}
@@ -95,8 +96,8 @@ jobs:
              **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
 
           files: |
             release/aarch64/RG351P/*
@@ -123,8 +124,8 @@ jobs:
             **IMPORTANT NOTE**: There are **two different images** below, one for the **RG351P/M** and one for the **RG351V**! 
 
             **If you download the incorrect image for your device, it will not boot!**  If you are unsure, use the the following links:
-            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
-            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/351ELEC/351ELEC/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
+            **New Installations** (`.img.gz`):  **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.img.gz)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.img.gz)**
+            **Upgrades** (place in `/storage/roms/update`): **[RG351P/M](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351P.aarch64-${{ steps.version.outputs.version }}.tar)** |  **[RG351V](https://github.com/${{ github.event.repository.full_name }}/releases/download/${{ steps.version.outputs.version }}/351ELEC-RG351V.aarch64-${{ steps.version.outputs.version }}.tar)**
 
           files: |
             release/aarch64/RG351P/*
