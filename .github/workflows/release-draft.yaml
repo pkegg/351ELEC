@@ -44,7 +44,7 @@ jobs:
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
-            repository: pkegg/351ELEC
+            repository: ${{ github.event.repository.full_name }}
             event-type: release-draft
             client-payload: |
                { 
