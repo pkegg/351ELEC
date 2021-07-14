@@ -19,7 +19,7 @@ jobs:
         - name: repository full name
           id: full_name
           run: |
-               echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's/^.*://g' | sed 's/.git$//g')"
+               echo "::set-output name=full_name::$(git config --get remote.origin.url | sed 's|^.*github.com/||g' | sed 's/.git$//g')"
         - name: changes
           id: changes
           run: |
