@@ -130,7 +130,7 @@ jobs:
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
-          prerelease: false
+          prerelease: true
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
