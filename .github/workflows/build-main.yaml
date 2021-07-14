@@ -1,9 +1,5 @@
 name: build-main
 on:
-  workflow_run:
-    workflows: [release-beta, release-draft]
-    types:
-      - completed
   repository_dispatch:
     types: [release-beta, release-draft]
   workflow_dispatch:
@@ -24,8 +20,6 @@ concurrency:
 jobs:
   build:
     runs-on: main
-    # Only run if: this is not a workflow run (upstream build) or it is a workflow run and upstream was 'success'
-    if: github.event.action != 'completed' || github.event.workflow_run.conclusion == 'success'
     steps:
       - uses: hmarr/debug-action@v2
         name: debug
