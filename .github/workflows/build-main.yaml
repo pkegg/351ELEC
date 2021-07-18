@@ -108,11 +108,11 @@ jobs:
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
-          prerelease: true,
-          repository: pkegg/351ELEC-beta
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_REPOSITORY: pkegg/351ELEC-beta
+          INPUT_REPOSITORY: "pkegg/351ELEC-beta"
+          GITHUB_REPOSITORY: "pkegg/351ELEC-beta"
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         if: github.event.action == 'release-draft'
