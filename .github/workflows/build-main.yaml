@@ -76,7 +76,7 @@ jobs:
             release/aarch64/RG351P/
       - name: Create pre-release
         if: github.event.action == 'release-beta'
-        uses: softprops/action-gh-release@master
+        uses: pkegg/action-gh-release@master
         with:
           tag_name: "${{ steps.version.outputs.version }}"
           body: |
