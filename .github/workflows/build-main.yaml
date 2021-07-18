@@ -108,7 +108,8 @@ jobs:
           files: |
             release/aarch64/RG351P/*
             release/aarch64/RG351V/*
-          prerelease: true
+          prerelease: true,
+          repository: pkegg/351ELEC-beta
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: pkegg/351ELEC-beta
