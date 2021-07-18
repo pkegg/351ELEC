@@ -75,6 +75,7 @@ jobs:
           path: |
             release/aarch64/RG351P/
       - name: create pre-release
+        if: github.event.action == 'release-beta'
         uses: ncipollo/release-action@v1
         with:
           artifacts: "release.tar.gz,foo/*.txt"
@@ -82,7 +83,7 @@ jobs:
           repo: 351ELEC-beta
           tag: "${{ steps.version.outputs.version }}"
       - name: Create pre-release
-        if: github.event.action == 'release-betano'
+        if: github.event.action == 'release-beta'
         uses: pkegg/action-gh-release@3bad245bdb492c1cbfbba2370734a17d3b2debcc
         with:
           tag_name: "${{ steps.version.outputs.version }}"
