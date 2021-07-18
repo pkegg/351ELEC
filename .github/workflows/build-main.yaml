@@ -112,7 +112,7 @@ jobs:
           repository: pkegg/351ELEC-beta
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: pkegg/351ELEC-beta
+          INPUT_REPOSITORY: pkegg/351ELEC-beta
       - name: Create draft release
         uses: softprops/action-gh-release@v1
         if: github.event.action == 'release-draft'
