@@ -78,8 +78,8 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "release.tar.gz,foo/*.txt"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          #repo: 351ELEC-beta
+          token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
+          repo: 351ELEC-beta
           tag: "${{ steps.version.outputs.version }}"
       - name: Create pre-release
         if: github.event.action == 'release-betano'
@@ -117,8 +117,7 @@ jobs:
             release/aarch64/RG351V/*
           prerelease: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INPUT_REPOSITORY: "pkegg/351ELEC-beta"
+          GITHUB_TOKEN: ${{ secrets.TRIGGER_BUILD_TOKEN }}
           GITHUB_REPOSITORY: "pkegg/351ELEC-beta"
       - name: Create draft release
         uses: softprops/action-gh-release@v1
