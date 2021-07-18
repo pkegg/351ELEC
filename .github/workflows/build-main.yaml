@@ -47,13 +47,13 @@ jobs:
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351P
+            #make DOCKER_WORK_DIR=/work docker-RG351P
 
       - name: Build rg351V
         run: |
             set -e
             export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351V
+            #make DOCKER_WORK_DIR=/work docker-RG351V
 
       - name: Cleanup system artifacts
         run: |
