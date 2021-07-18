@@ -48,7 +48,8 @@ jobs:
           run: echo "::set-output name=date::$(date +'%Y%m%d_%H%M')"
   
         - name: Repository Dispatch
-          if: steps.changes.outputs.changes != '0'
+          #fixme
+          #if: steps.changes.outputs.changes != '0'
           uses: peter-evans/repository-dispatch@v1
           with:
             token: ${{ secrets.TRIGGER_BUILD_TOKEN }}
