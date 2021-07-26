@@ -3,17 +3,21 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="22a5add6a2a7d17461693ef45a6bd3c608e6305b"
-PKG_GIT_CLONE_BRANCH="main"
+PKG_VERSION="7828991b3e6285498d07d29c9b7380d484188c7c"
+PKG_GIT_CLONE_BRANCH="ui-bezels"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
+#PKG_SITE="file:///work/351elec-emulationstation"
+#PKG_URL="$PKG_SITE"
+PKG_SITE="https://github.com/pkegg/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
 PKG_SHORTDESC="Emulationstation emulator frontend"
 PKG_BUILD_FLAGS="-gold"
+
+#GET_HANDLER_SUPPORT="file"
 GET_HANDLER_SUPPORT="git"
 
 # themes for Emulationstation
