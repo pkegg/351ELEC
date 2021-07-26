@@ -24,6 +24,7 @@ SOURCERACONF="/usr/config/retroarch/retroarch.cfg"
 RACONF="/storage/.config/retroarch/retroarch.cfg"
 RAAPPENDCONF="/tmp/raappend.cfg"
 RACORECONF="/storage/.config/retroarch/retroarch-core-options.cfg"
+TMP_BAZEL="/tmp/351elec-bezel.cfg"
 SNAPSHOTS="/storage/roms/savestates"
 PLATFORM=${1,,}
 ROM="${2##*/}"
@@ -520,6 +521,37 @@ if [ "${EES}" != "false" ] && [ "${EES}" != "none" ] && [ "${EES}" != "0" ] && [
 			break
 		fi
 	done
+    # Custom 351elec bezel logic
+    if [ -f "${path}/default.351elec.cfg" ]; then
+        cat "${path}/default.351elec.cfg" > ${TMP_BAZEL}
+		echo "" >> ${TMP_BAZEL}
+        if [ -f "${bezelcfg}" ]; then
+            cat "${bezelcfg}" >> ${TMP_BAZEL}
+			echo "" >> ${TMP_BAZEL}
+        elif [ -f "${path}/default.cfg"} ]; then
+            cat "${path}/default.cfg" >> ${TMP_BAZEL}
+			echo "" >> ${TMP_BAZEL}
+        fi
+        i=0
+        for option in $(ls ${path}/option.overlaydesc*.cfg||true); do
+            option_name=$(echo ${option} | sed 's/.*option\.overlaydesc\.//g ; s/.cfg$//g')
+            #echo "option name: ${option_name}"
+            #echo "ee_setting name: - ees: ${EES} platform: ${PLATFORM} rom: ${ROM}"
+            setting=$(get_ee_setting bezel.option.${option_name} ${PLATFORM} "${ROM}")
+            if [[ "$setting" == "1" || "$setting" == "" ]]; then
+                cat "${option}" | sed "s/overlay0_desc0/overlay0_desc${i}/g" >> ${TMP_BAZEL}
+				echo "" >> ${TMP_BAZEL}
+                i=$(expr $i + 1)
+            fi
+        done
+
+        if [ "$i" -ge "0" ]; then
+            echo "overlay0_descs = $((i))" >> ${TMP_BAZEL}
+        fi
+        sed -i  "s|_overlay = \"|_overlay = \"${path}/|g" ${TMP_BAZEL}
+        bezelcfg="${TMP_BAZEL}"
+    fi
+
 	# configure bezel
 	echo 'input_overlay_enable = "true"'		>> ${RAAPPENDCONF}
 	echo "input_overlay = \"${bezelcfg}\""		>> ${RAAPPENDCONF}
