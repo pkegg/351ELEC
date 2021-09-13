@@ -56,6 +56,8 @@ if [[ $EMULATOR = "libretro" ]]; then
 elif [[ $EMULATOR = "retrorun" ]]; then
 	EMU="${CORE}_libretro"
 	RETRORUN="yes"
+elif [[ $EMULATOR = "mupen64plussa" ]]; then
+	EMU="M64P"
 else
 	EMU="${CORE}"
 fi
@@ -266,10 +268,10 @@ then
 			fi
 		;;
 		"n64")
-			jslisten set "mupen64plus retroarch"
+			jslisten set "mupen64plussa retroarch"
 			if [ "$EMU" = "M64P" ]
 			then
-				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${ROMNAME}"'
+				RUNTHIS='${TBASH} /usr/bin/m64p.sh "${CORE}" "${ROMNAME}"'
 			fi
 		;;
 		"amiga"|"amigacd32")
