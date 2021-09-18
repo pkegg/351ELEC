@@ -48,7 +48,7 @@ makeinstall_target() {
 	# set the correct default theme for P or V models
 	# there are both default themes in es_settings.cfg
 	# delete es-theme-art-book-3-2 on V
-	if [ "${DEVICE}" = "RG351V" ]; then
+	if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]; then
 		sed -i "/value=\"es-theme-art-book-3-2\"/d" $INSTALL/usr/config/emulationstation/es_settings.cfg
 	fi
 	# delete es-theme-art-book-4-3 on P

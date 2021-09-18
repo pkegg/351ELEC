@@ -60,7 +60,7 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/share/retroarch-overlays
   if [ "$DEVICE" == "RG351P" ]; then
     cp -r $PKG_DIR/overlay-p/* $INSTALL/usr/share/retroarch-overlays
-  elif [ "$DEVICE" == "RG351V" ]; then
+  elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ]; then
     cp -r $PKG_DIR/overlay-v/* $INSTALL/usr/share/retroarch-overlays
   fi
 
@@ -77,7 +77,7 @@ makeinstall_target() {
   mkdir -p $INSTALL/usr/share/bootloader
   if [ "$DEVICE" == "RG351P" ]; then
     find_file_path "splash/splash-480.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
-  elif [ "$DEVICE" == "RG351V" ]; then
+  elif [ "$DEVICE" == "RG351V" ] || [ "$DEVICE" == "RG351MP" ]; then
     find_file_path "splash/splash-640.bmp" && cp ${FOUND_PATH} $INSTALL//usr/share/bootloader/logo.bmp
   fi
 
