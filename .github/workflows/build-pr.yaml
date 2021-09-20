@@ -20,6 +20,7 @@ concurrency:
   cancel-in-progress: true #only 1 build at a time per PR
 jobs:
   build:
+    timeout-minutes: 1440
     # Run on self-hosted runners with the 'pr' label
     runs-on: pr
     # Don't run on drafts
