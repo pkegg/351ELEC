@@ -1304,7 +1304,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts linux
 +	supports-sd;
 +	card-detect-delay = <800>;
 +	ignore-pm-notify;
-+	cd-gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_LOW>; /*[> CD GPIO <]*/
++	cd-gpios = <&gpio3 RK_PB6 GPIO_ACTIVE_LOW>; /*[> CD GPIO <]*/
 +	sd-uhs-sdr12;
 +	sd-uhs-sdr25;
 +	sd-uhs-sdr50;
@@ -2558,7 +2558,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts li
 +	supports-sd;
 +	card-detect-delay = <800>;
 +	ignore-pm-notify;
-+	cd-gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_LOW>; /*[> CD GPIO <]*/
++	cd-gpios = <&gpio3 RK_PB6 GPIO_ACTIVE_LOW>; /*[> CD GPIO <]*/
 +	sd-uhs-sdr12;
 +	sd-uhs-sdr25;
 +	sd-uhs-sdr50;
@@ -4544,6 +4544,7 @@ diff -rupN linux.orig/arch/arm64/configs/rg351p_defconfig linux.new/arch/arm64/c
 +CONFIG_JOYSTICK_XPAD_LEDS=y
 +# CONFIG_JOYSTICK_ADC is not set
 +CONFIG_JOYSTICK_ODROIDGO2=y
++CONFIG_JOYSTICK_ODROIDGO3=y
 +# CONFIG_INPUT_TABLET is not set
 +# CONFIG_INPUT_TOUCHSCREEN is not set
 +# CONFIG_ROCKCHIP_REMOTECTL is not set
