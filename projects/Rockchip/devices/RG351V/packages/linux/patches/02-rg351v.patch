@@ -200,7 +200,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/px30.dtsi linux.new/arch/arm6
 diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts
 --- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts	1969-12-31 19:00:00.000000000 -0500
 +++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts	2021-04-04 07:38:57.631333400 -0400
-@@ -0,0 +1,1025 @@
+@@ -0,0 +1,1220 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2019 Hardkernel Co., Ltd
@@ -238,6 +238,202 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts linux
 +                                linux,code = <KEY_VOLUMEDOWN>;
 +                                gpios = <&gpio2 RK_PA1 GPIO_ACTIVE_LOW>;
 +                        };
++        };
++
++        joypad: odroidgo3-joypad {
++                compatible = "odroidgo3-joypad";
++
++                joypad-name = "GO-Super Gamepad";
++                joypad-product = <0x1100>;
++                joypad-revision = <0x0100>;
++
++		status = "okay";
++                /*
++                  - odroidgo3-joypad sysfs list -
++		   * for poll device interval(ms)
++		   /sys/devices/platform/odroidgo3_joypad/poll_interval [rw]
++		   ex) echo 20 > poll_interval
++                   * for button-adc-fuzz
++		   /sys/devices/platform/odroidgo3_joypad/adc_fuzz [r]
++                   * for button-adc-flat
++		   /sys/devices/platform/odroidgo3_joypad/adc_flat [r]
++
++		   * for report control(1:enable, 0:disable)
++		   /sys/devices/platform/odroidgo3_joypad/enable [rw]
++		   * for adc calibration value setup(current adcs value -> cal value)
++		   /sys/devices/platform/odroidgo3_joypad/adc_cal [rw]
++		   ex) echo 0 > adc_cal
++		   * for amux data debug
++		   * Joypad driver is disabled when using this sysfs.
++		   /sys/devices/platform/odroidgo3_joypad/amux_debug [rw]
++		   ex) echo 0 > amux_debug --> select amux channel
++		   ex) cat amux_debug --> get adc data of seleted channel
++                */
++
++		/* gpio pincontrol setup */
++                pinctrl-names = "default";
++                pinctrl-0 = <&btn_pins>;
++
++		/* Analog mux define */
++		io-channel-names = "amux_adc";
++		io-channels = <&saradc 1>;
++
++		/* adc mux channel count */
++		amux-count = <4>;
++		/* adc mux select(a,b) gpio */
++		amux-a-gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_LOW>;
++		amux-b-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>;
++		/* adc mux enable gpio */
++		amux-en-gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_LOW>;
++
++		/* adc calculate scale */
++		button-adc-scale = <2>;
++
++		/* adc deadzone range  */
++		button-adc-deadzone = <64>;
++
++		/*
++		  specifies fuzz value that is used to filter noise from
++		  the event stream.
++		*/
++		button-adc-fuzz = <32>;
++		button-adc-flat = <32>;
++
++		/*
++		  Analog Stick data tuning value(precent)
++		  p = positive direction, n = negative direction
++		  report value = (real_adc_data * tuning_value) / 100
++		*/
++		abs_x-p-tuning = <200>;
++		abs_x-n-tuning = <200>;
++
++		abs_y-p-tuning = <200>;
++		abs_y-n-tuning = <200>;
++
++		abs_rx-p-tuning = <200>;
++		abs_rx-n-tuning = <200>;
++
++		abs_ry-p-tuning = <200>;
++		abs_ry-n-tuning = <200>;
++
++		/* poll device interval (ms), adc read interval */
++		poll-interval = <10>;
++
++		/* gpio button auto repeat set value : default disable */
++		/*
++			autorepeat;
++		*/
++
++		/*
++		      *** ODROIDGO3-Advance Switch layoout ***
++		|------------------------------------------------|
++		| sw15  sw21        sw10   sw9        sw20  sw16 |
++		|------------------------------------------------|
++		|      sw19                            sw22      |
++		|              |-------------------|             |
++		|     sw1      |                   |      sw8    |
++		|  sw3   sw4   |                   |   sw7   sw5 |
++		|     sw2      |    LCD Display    |      sw6    |
++		|              |                   |             |
++		|              |                   |             |
++		|              |-------------------|             |
++		|  sw11 sw12        | sd-slot |       sw13 sw14  |
++		|-------------------|         |------------------|
++		*/
++                /*
++                    joypad driver is poll-device driver.
++                    poll-device is does not support wakeup-source.
++		*/
++                sw1 {
++                        gpios = <&gpio1 RK_PB4 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-UP";
++                        linux,code = <BTN_DPAD_UP>; // 0x220
++                };
++                sw2 {
++                        gpios = <&gpio1 RK_PB5 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-DOWN";
++                        linux,code = <BTN_DPAD_DOWN>; // 0x221
++                };
++                sw3 {
++                        gpios = <&gpio1 RK_PB6 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-LEFT";
++                        linux,code = <BTN_DPAD_LEFT>; // 0x222
++                };
++                sw4 {
++                        gpios = <&gpio1 RK_PB7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-RIGHT";
++                        linux,code = <BTN_DPAD_RIGHT>; // 0x223
++                };
++                sw5 {
++                        gpios = <&gpio1 RK_PA2 GPIO_ACTIVE_LOW>;
++                        label = "GPIO KEY BTN-A";
++                        linux,code = <BTN_EAST>; // 0x131
++                };
++                sw6 {
++                        gpios = <&gpio1 RK_PA5 GPIO_ACTIVE_LOW>;
++                        label = "GPIO BTN-B";
++                        linux,code = <BTN_SOUTH>; // 0x130
++                };
++                sw7 {
++                        gpios = <&gpio1 RK_PA6 GPIO_ACTIVE_LOW>;
++                        label = "GPIO BTN-Y";
++                        linux,code = <BTN_WEST>; // 0x134
++                };
++                sw8 {
++                        gpios = <&gpio1 RK_PA7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO BTN-X";
++                        linux,code = <BTN_NORTH>; // 0x133
++                };
++                sw11 {
++                        gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F3";
++                        linux,code = <BTN_TRIGGER_HAPPY3>; // 0x2c2
++                };
++                sw12 {
++                        gpios = <&gpio2 RK_PA3 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F4";
++                        linux,code = <BTN_TRIGGER_HAPPY4>; // 0x2c3
++                };
++                /*sw13 {
++                        gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F5";
++                        linux,code = <BTN_TRIGGER_HAPPY5>; // 0x2c4
++                };
++                sw14 {
++                        gpios = <&gpio2 RK_PA5 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F6";
++                        linux,code = <BTN_TRIGGER_HAPPY6>; // 0x13c
++                };*/
++                sw15 {
++                        gpios = <&gpio2 RK_PA6 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-LEFT";
++                        linux,code = <BTN_TL>; // 0x02
++                };
++                sw16 {
++                        gpios = <&gpio2 RK_PA7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-RIGHT";
++                        linux,code = <BTN_TR>; // 0x05
++                };
++                sw19 {
++                        gpios = <&gpio3 RK_PB1 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F1";
++                        linux,code = <BTN_TRIGGER_HAPPY1>;
++                };
++                sw20 {
++                        gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-RIGHT2";
++                        linux,code = <BTN_TR2>;
++                };
++                sw21 {
++                        gpios = <&gpio3 RK_PB2 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-LEFT2";
++                        linux,code = <BTN_TL2>;
++                };
++                sw22 {
++                        gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F2";
++                        linux,code = <BTN_TRIGGER_HAPPY2>;
++                };
 +        };
 +
 +	fiq-debugger {
@@ -1230,7 +1426,7 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts linux
 diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts
 --- linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts	1969-12-31 19:00:00.000000000 -0500
 +++ linux.new/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts	2021-04-04 07:38:12.539028211 -0400
-@@ -0,0 +1,1055 @@
+@@ -0,0 +1,1250 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2019 Hardkernel Co., Ltd
@@ -1268,6 +1464,201 @@ diff -rupN linux.orig/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux-oc.dts li
 +                                linux,code = <KEY_VOLUMEDOWN>;
 +                                gpios = <&gpio2 RK_PA1 GPIO_ACTIVE_LOW>;
 +                        };
++        };
++        joypad: odroidgo3-joypad {
++                compatible = "odroidgo3-joypad";
++
++                joypad-name = "GO-Super Gamepad";
++                joypad-product = <0x1100>;
++                joypad-revision = <0x0100>;
++
++		status = "okay";
++                /*
++                  - odroidgo3-joypad sysfs list -
++		   * for poll device interval(ms)
++		   /sys/devices/platform/odroidgo3_joypad/poll_interval [rw]
++		   ex) echo 20 > poll_interval
++                   * for button-adc-fuzz
++		   /sys/devices/platform/odroidgo3_joypad/adc_fuzz [r]
++                   * for button-adc-flat
++		   /sys/devices/platform/odroidgo3_joypad/adc_flat [r]
++
++		   * for report control(1:enable, 0:disable)
++		   /sys/devices/platform/odroidgo3_joypad/enable [rw]
++		   * for adc calibration value setup(current adcs value -> cal value)
++		   /sys/devices/platform/odroidgo3_joypad/adc_cal [rw]
++		   ex) echo 0 > adc_cal
++		   * for amux data debug
++		   * Joypad driver is disabled when using this sysfs.
++		   /sys/devices/platform/odroidgo3_joypad/amux_debug [rw]
++		   ex) echo 0 > amux_debug --> select amux channel
++		   ex) cat amux_debug --> get adc data of seleted channel
++                */
++
++		/* gpio pincontrol setup */
++                pinctrl-names = "default";
++                pinctrl-0 = <&btn_pins>;
++
++		/* Analog mux define */
++		io-channel-names = "amux_adc";
++		io-channels = <&saradc 1>;
++
++		/* adc mux channel count */
++		amux-count = <4>;
++		/* adc mux select(a,b) gpio */
++		amux-a-gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_LOW>;
++		amux-b-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>;
++		/* adc mux enable gpio */
++		amux-en-gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_LOW>;
++
++		/* adc calculate scale */
++		button-adc-scale = <2>;
++
++		/* adc deadzone range  */
++		button-adc-deadzone = <64>;
++
++		/*
++		  specifies fuzz value that is used to filter noise from
++		  the event stream.
++		*/
++		button-adc-fuzz = <32>;
++		button-adc-flat = <32>;
++
++		/*
++		  Analog Stick data tuning value(precent)
++		  p = positive direction, n = negative direction
++		  report value = (real_adc_data * tuning_value) / 100
++		*/
++		abs_x-p-tuning = <200>;
++		abs_x-n-tuning = <200>;
++
++		abs_y-p-tuning = <200>;
++		abs_y-n-tuning = <200>;
++
++		abs_rx-p-tuning = <200>;
++		abs_rx-n-tuning = <200>;
++
++		abs_ry-p-tuning = <200>;
++		abs_ry-n-tuning = <200>;
++
++		/* poll device interval (ms), adc read interval */
++		poll-interval = <10>;
++
++		/* gpio button auto repeat set value : default disable */
++		/*
++			autorepeat;
++		*/
++
++		/*
++		      *** ODROIDGO3-Advance Switch layoout ***
++		|------------------------------------------------|
++		| sw15  sw21        sw10   sw9        sw20  sw16 |
++		|------------------------------------------------|
++		|      sw19                            sw22      |
++		|              |-------------------|             |
++		|     sw1      |                   |      sw8    |
++		|  sw3   sw4   |                   |   sw7   sw5 |
++		|     sw2      |    LCD Display    |      sw6    |
++		|              |                   |             |
++		|              |                   |             |
++		|              |-------------------|             |
++		|  sw11 sw12        | sd-slot |       sw13 sw14  |
++		|-------------------|         |------------------|
++		*/
++                /*
++                    joypad driver is poll-device driver.
++                    poll-device is does not support wakeup-source.
++		*/
++                sw1 {
++                        gpios = <&gpio1 RK_PB4 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-UP";
++                        linux,code = <BTN_DPAD_UP>; // 0x220
++                };
++                sw2 {
++                        gpios = <&gpio1 RK_PB5 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-DOWN";
++                        linux,code = <BTN_DPAD_DOWN>; // 0x221
++                };
++                sw3 {
++                        gpios = <&gpio1 RK_PB6 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-LEFT";
++                        linux,code = <BTN_DPAD_LEFT>; // 0x222
++                };
++                sw4 {
++                        gpios = <&gpio1 RK_PB7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO DPAD-RIGHT";
++                        linux,code = <BTN_DPAD_RIGHT>; // 0x223
++                };
++                sw5 {
++                        gpios = <&gpio1 RK_PA2 GPIO_ACTIVE_LOW>;
++                        label = "GPIO KEY BTN-A";
++                        linux,code = <BTN_EAST>; // 0x131
++                };
++                sw6 {
++                        gpios = <&gpio1 RK_PA5 GPIO_ACTIVE_LOW>;
++                        label = "GPIO BTN-B";
++                        linux,code = <BTN_SOUTH>; // 0x130
++                };
++                sw7 {
++                        gpios = <&gpio1 RK_PA6 GPIO_ACTIVE_LOW>;
++                        label = "GPIO BTN-Y";
++                        linux,code = <BTN_WEST>; // 0x134
++                };
++                sw8 {
++                        gpios = <&gpio1 RK_PA7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO BTN-X";
++                        linux,code = <BTN_NORTH>; // 0x133
++                };
++                sw11 {
++                        gpios = <&gpio2 RK_PA2 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F3";
++                        linux,code = <BTN_TRIGGER_HAPPY3>; // 0x2c2
++                };
++                sw12 {
++                        gpios = <&gpio2 RK_PA3 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F4";
++                        linux,code = <BTN_TRIGGER_HAPPY4>; // 0x2c3
++                };
++                /*sw13 {
++                        gpios = <&gpio2 RK_PA4 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F5";
++                        linux,code = <BTN_TRIGGER_HAPPY5>; // 0x2c4
++                };
++                sw14 {
++                        gpios = <&gpio2 RK_PA5 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F6";
++                        linux,code = <BTN_TRIGGER_HAPPY6>; // 0x13c
++                };*/
++                sw15 {
++                        gpios = <&gpio2 RK_PA6 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-LEFT";
++                        linux,code = <BTN_TL>; // 0x02
++                };
++                sw16 {
++                        gpios = <&gpio2 RK_PA7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-RIGHT";
++                        linux,code = <BTN_TR>; // 0x05
++                };
++                sw19 {
++                        gpios = <&gpio3 RK_PB1 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F1";
++                        linux,code = <BTN_TRIGGER_HAPPY1>;
++                };
++                sw20 {
++                        gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-RIGHT2";
++                        linux,code = <BTN_TR2>;
++                };
++                sw21 {
++                        gpios = <&gpio3 RK_PB2 GPIO_ACTIVE_LOW>;
++                        label = "GPIO TOP-LEFT2";
++                        linux,code = <BTN_TL2>;
++                };
++                sw22 {
++                        gpios = <&gpio3 RK_PB4 GPIO_ACTIVE_LOW>;
++                        label = "GPIO F2";
++                        linux,code = <BTN_TRIGGER_HAPPY2>;
++                };
 +        };
 +
 +	fiq-debugger {
