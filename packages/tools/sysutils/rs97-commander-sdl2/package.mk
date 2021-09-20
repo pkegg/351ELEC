@@ -14,7 +14,7 @@ PKG_PRIORITY="optional"
 PKG_SECTION="tools"
 PKG_SHORTDESC="Two-pane commander for RetroFW and RG-350 (fork of Dingux Commander)"
 
-if [ "${DEVICE}" = "RG351V" ]
+if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]
 then
   PKG_PATCH_DIRS="RG351V"
 else

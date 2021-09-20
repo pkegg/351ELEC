@@ -27,7 +27,7 @@ PKG_DEPENDS_TARGET="toolchain SDL2 alsa-lib openssl freetype zlib retroarch-asse
 PKG_LONGDESC="Reference frontend for the libretro API."
 GET_HANDLER_SUPPORT="git"
 
-if [[ "$DEVICE" == RG351V ]]; then
+if [[ "$DEVICE" == RG351V || "$DEVICE" == RG351MP ]] ; then
   PKG_PATCH_DIRS="$DEVICE"
 fi
 

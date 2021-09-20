@@ -500,7 +500,7 @@ if [ "${EE_DEVICE}" == "RG351P" ]; then
 		['wonderswan']="16 16 448 288"
 		['wonderswancolor']="16 16 448 288"
 	)
-else #Must be the V then
+else #Must be the RG351V or RG351MP then
 	declare -A SystemViewport=(
 		['standard']="1 1 639 479"
 		['gb']="80 24 480 432"

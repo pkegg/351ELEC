@@ -10,11 +10,16 @@ sleep 1
 echo 'confguring inputs'
 EE_DEVICE=$(cat /storage/.config/.OS_ARCH)
 echo 'confguring inputs on device:'$EE_DEVICE
+JOYPAD_DEVICE=/dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 if [[ "$EE_DEVICE" == "RG351V" ]]
 then
-	ln -s /dev/input/event4 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+	ln -s /dev/input/event4 ${JOYPAD_DEVICE}
+elif [[ "$EE_DEVICE" == "RG351MP" ]]
+then
+    JOYPAD_DEVICE=/dev/input/by-path/platform-odroidgo3-joypad-event-joystick
+	ln -s /dev/input/event4 ${JOYPAD_DEVICE}
 else
-	ln -s /dev/input/event3 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
+	ln -s /dev/input/event3 ${JOYPAD_DEVICE}
 fi
 chmod 777 /dev/input/by-path/platform-odroidgo2-joypad-event-joystick
 sleep 1
