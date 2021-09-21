@@ -108,8 +108,10 @@ makeinstall_target() {
 
    # General configuration
    mkdir -p $INSTALL/usr/config/retroarch/
-   cp -rf $PKG_DIR/sources/* $INSTALL/usr/config/retroarch/ 
- 
+   cp -f $PKG_DIR/sources/retroarch*.cfg $INSTALL/usr/config/retroarch/ 
+   if [[ -d "$PKG_DIR/sources/$DEVICE" ]]; then
+     cp -f $PKG_DIR/sources/$DEVICE/* $INSTALL/usr/config/retroarch/
+   fi
 }
 
 post_install() {  

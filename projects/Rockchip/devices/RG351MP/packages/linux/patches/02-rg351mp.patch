@@ -7686,17 +7686,6 @@ diff -rupN linux.orig/drivers/gator/generated_gator_src_md5.h linux.new/drivers/
 +++ linux.new/drivers/gator/generated_gator_src_md5.h	2021-03-17 19:00:40.300516672 -0400
 @@ -0,0 +1 @@
 +static char * gator_src_md5 = "e195786c27d25972203989708b26c144";
-diff -rupN linux.orig/drivers/input/joystick/odroidgo2-joypad.c linux.new/drivers/input/joystick/odroidgo2-joypad.c
---- linux.orig/drivers/input/joystick/odroidgo2-joypad.c	2021-03-17 18:48:47.026820560 -0400
-+++ linux.new/drivers/input/joystick/odroidgo2-joypad.c	2021-04-02 14:58:04.541459138 -0400
-@@ -669,7 +669,7 @@ static int joypad_input_setup(struct dev
- 	device_property_read_u32(dev, "joypad-revision", &joypad_revision);
- 	device_property_read_u32(dev, "joypad-product", &joypad_product);
- 	input->id.bustype = BUS_HOST;
--	input->id.vendor  = 0x484B;
-+	input->id.vendor  = 0x0001;
- 	input->id.product = (u16)joypad_product;
- 	input->id.version = (u16)joypad_revision;
  
 diff -rupN linux.orig/drivers/power/rk817_battery.c linux.new/drivers/power/rk817_battery.c
 --- linux.orig/drivers/power/rk817_battery.c	2021-03-17 18:48:47.618825930 -0400
