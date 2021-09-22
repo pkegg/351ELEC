@@ -8,17 +8,20 @@ PKG_GIT_CLONE_BRANCH="main"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
-#PKG_SITE="file:///work/351elec-emulationstation"
-#PKG_URL="$PKG_SITE"
-PKG_SITE="https://github.com/pkegg/351elec-emulationstation"
+
+PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
 PKG_SHORTDESC="Emulationstation emulator frontend"
 PKG_BUILD_FLAGS="-gold"
 
-#GET_HANDLER_SUPPORT="file"
 GET_HANDLER_SUPPORT="git"
+
+# Uncomment these lines to build locally from a git clone in your work directory (update PKG_SITE location)
+PKG_SITE="file:///work/351elec-emulationstation"
+PKG_URL="$PKG_SITE"
+GET_HANDLER_SUPPORT="file"
 
 # themes for Emulationstation
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
