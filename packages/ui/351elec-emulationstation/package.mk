@@ -3,13 +3,13 @@
 # Copyright (C) 2020-present Fewtarius
 
 PKG_NAME="351elec-emulationstation"
-PKG_VERSION="4b051e2710200025c50e7ddf5aa0696507d8b538"
-PKG_GIT_CLONE_BRANCH="main"
+PKG_VERSION="33466551d7ddb3a8f28ef6a2a30f038a84846d1f"
+PKG_GIT_CLONE_BRANCH="ui-bezels"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 
-PKG_SITE="https://github.com/351ELEC/351elec-emulationstation"
+PKG_SITE="https://github.com/pkegg/351elec-emulationstation"
 PKG_URL="$PKG_SITE.git"
 PKG_DEPENDS_TARGET="toolchain SDL2 freetype curl freeimage bash rapidjson ${OPENGLES} SDL2_mixer libcec fping p7zip vlc"
 PKG_NEED_UNPACK="busybox"
@@ -18,10 +18,16 @@ PKG_BUILD_FLAGS="-gold"
 
 GET_HANDLER_SUPPORT="git"
 
-# Uncomment these lines to build locally from a git clone in your work directory (update PKG_SITE location)
-PKG_SITE="file:///work/351elec-emulationstation"
-PKG_URL="$PKG_SITE"
-GET_HANDLER_SUPPORT="file"
+##########################################################################################################
+# Uncomment the following lines (PKG_SITE, PKG_URL, GET_HANDLER_SUPPORT) to build locally from a git clone
+# of 351elec-emulationstation in your work directory.  Works with docker too if it's in the work directory.
+# ------------------------
+# To ensure the source gets updated , you must remove sources.  So build as follows:
+#   rm -rf ./sources/351elec-emulationstation/ && DOCKER_WORK_DIR=/work DEVICE=RG351V ARCH=aarch64 PACKAGE=351elec-emulationstation make docker-package-clean docker-package
+##########################################################################################################
+#PKG_SITE="file:///work/351elec-emulationstation"
+#PKG_URL="$PKG_SITE"
+#GET_HANDLER_SUPPORT="file"
 
 # themes for Emulationstation
 PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET es-theme-art-book-3-2 es-theme-art-book-4-3"
