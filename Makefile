@@ -1,4 +1,4 @@
-#test
+#test - 1
 BUILD_DIRS=build.*
 
 all:
