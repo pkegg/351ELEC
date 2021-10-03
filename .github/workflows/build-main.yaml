@@ -44,17 +44,8 @@ jobs:
            else
                echo "::set-output name=version::dev-${{ steps.date.outputs.date }}-${{ steps.sha.outputs.sha }}"
            fi
-      - name: Build rg351P
-        run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351P
+   
 
-      - name: Build rg351V
-        run: |
-            set -e
-            export CUSTOM_VERSION="${{ steps.version.outputs.version }}"
-            make DOCKER_WORK_DIR=/work docker-RG351V
       - name: Build rg351MP
         run: |
             set -e
@@ -73,20 +64,7 @@ jobs:
             #main builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
 
-      - name: Archive RG351V (${{github.sha}})
-        uses: actions/upload-artifact@v2
-        if: github.event.client_payload.release_tag == ''
-        with:
-          name: RG351V-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG351V/
-      - name: Archive RG351P (${{github.sha}})
-        if: github.event.client_payload.release_tag == ''
-        uses: actions/upload-artifact@v2
-        with:
-          name: RG351P-dev-main-${{ steps.date.outputs.date }}-${{steps.sha.outputs.sha}}
-          path: |
-            release/aarch64/RG351P/
+   
       - name: Archive RG351MP (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
         uses: actions/upload-artifact@v2
