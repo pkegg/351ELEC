@@ -62,6 +62,7 @@ jobs:
             set -e
             #main builds only include the .tar for speed
             rm -rf release/aarch64/RG351*/*.img.gz*
+
       - name: Archive RG351MP (${{github.sha}})
         if: github.event.client_payload.release_tag == ''
         uses: actions/upload-artifact@v2
