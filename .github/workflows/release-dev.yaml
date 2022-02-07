@@ -6,7 +6,7 @@
 name: release-dev
 on:
   schedule:
-    - cron:  '0 21 * * *' # run an hour later than pre-release builds so they time build pipeline priority.
+    - cron:  '0 5 * * *' # Have ready for beginning of day in Europe where most devs are.
       
   workflow_dispatch:  # allows manual runs
 env:
