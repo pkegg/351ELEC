@@ -121,7 +121,7 @@ jobs:
       - name: Create backwards compatible 351ELEC tar files
         if: github.event.action == 'release-prerelease'
         run: |
-            for release in release/aarch64/RG*/*.tar; do
+            for release in release/aarch64/RG*/*.tar*; do
               echo "release: $release"
               compatible_release=$(echo $release | sed 's|AmberELEC|351ELEC|g')
               if [[ "$compatible_release" != "$release" ]]; then
