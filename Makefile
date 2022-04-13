@@ -68,6 +68,10 @@ mp-aarch64:
 update:
 	DEVICE=RG351P ARCH=aarch64 ./scripts/update_packages
 
+toolchain:
+	DEVICE=RG552 ARCH=arm ./scripts/build-toolchain
+	DEVICE=RG552 ARCH=aarch64 ./scripts/build-toolchain
+
 package:
 	./scripts/build ${PACKAGE}
 

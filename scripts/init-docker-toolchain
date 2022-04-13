@@ -1,0 +1,33 @@
+#! /bin/bash
+set -e
+DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+REGISTRY=ghcr.io
+ORG=pkegg
+BASE_IMAGE=ubuntu:20.04
+DOCKER_IMAGE=$REGISTRY/$ORG/amberelec-toolchain-rg552:latest
+
+SUDO=
+if which docker 2> /dev/null 1> /dev/null && ! docker ps -q 2> /dev/null 1> /dev/null ; then
+  SUDO=sudo
+fi
+echo "Using sudo: $SUDO"
+if ! $SUDO docker inspect $DOCKER_IMAGE 1> /dev/null 2> /dev/null ; then
+  echo "no image: $DOCKER_IMAGE exists"
+  $SUDO docker pull $DOCKER_IMAGE
+else
+  echo "image: $DOCKER_IMAGE exists"
+fi 
+
+DOCKER_ID=$($SUDO docker create $DOCKER_IMAGE)
+
+function cleanup {
+  echo "cleaning up: $DOCKER_ID"
+  $SUDO docker rm -f "$DOCKER_ID"
+}
+# Call the egress function
+trap cleanup EXIT
+
+pushd $DIR/..
+$SUDO docker cp $DOCKER_ID:/build.AmberELEC-RG552.arm/ ./build.AmberELEC-RG552.arm-test/
+popd

@@ -1,0 +1,5 @@
+#! /bin/bash
+DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+DEVICE=RG552 ARCH=arm $DIR/build toolchain 
+DEVICE=RG552 ARCH=aarch64 $DIR/build toolchain 
