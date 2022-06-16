@@ -12,7 +12,7 @@ PKG_SHORTDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based o
 PKG_LONGDESC="GZDoom is a modder-friendly OpenGL and Vulkan source port based on the DOOM engine"
 PKG_TOOLCHAIN="cmake-make"
 
-if [ ! "${DEVICE}" = "RG351MP" ] && [ ! "${DEVICE}" = "RG552" ]
+if [ ! "${DEVICE}" = "RG351MP" ] &&  [ ! "${DEVICE}" = "RG353P" ] && [ ! "${DEVICE}" = "RG552" ]
 then
   PKG_PATCH_DIRS="RG351P"
 fi
@@ -51,7 +51,7 @@ makeinstall_target() {
   cp $PKG_BUILD/.$TARGET_NAME/gzdoom $INSTALL/usr/bin
 
   mkdir -p $INSTALL/usr/config/distribution/gzdoom
-  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG552" ]; then
+  if [ "${DEVICE}" = "RG351MP" ] || [ "${DEVICE}" = "RG353P" ] ||[ "${DEVICE}" = "RG552" ]; then
     cp $PKG_DIR/config/RG351MP/* $INSTALL/usr/config/distribution/gzdoom
   else
     cp $PKG_DIR/config/RG351P/* $INSTALL/usr/config/distribution/gzdoom

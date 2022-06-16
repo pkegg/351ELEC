@@ -28,7 +28,12 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/u-boot/u-boot.git"
+elif [[ "$DEVICE" =~ RG353P ]]; then
+  PKG_VERSION="dfd1bcb"
+  PKG_GIT_CLONE_BRANCH=main
+  PKG_URL="https://github.com/JustEnoughLinuxOS/rk356x-uboot.git"
 fi
+
 
 post_patch() {
   if [ -n "$UBOOT_SYSTEM" ] && find_file_path bootloader/config; then
@@ -40,9 +45,28 @@ post_patch() {
 }
 
 make_target() {
+  . ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/options
+
   if [ -z "$UBOOT_SYSTEM" ]; then
     echo "UBOOT_SYSTEM must be set to build an image"
     echo "see './scripts/uboot_helper' for more information"
+  elif [ "$DEVICE" == "RG353P" ]
+    then
+      UBOOT_DTB="rk3566"
+      echo "woooooord: $UBOOT_DTB $TOOLCHAIN"
+
+      cd ${PKG_BUILD}
+      git checkout -- include/configs/rockchip-common.h
+      sed -i "s|JELOS|AMBRELC/bin|" make.sh
+
+      git checkout -- make.sh
+
+      echo "Making for GPT (${UBOOT_DTB})..."
+      sed -i "s|TOOLCHAIN_ARM64=.*|TOOLCHAIN_ARM64=${TOOLCHAIN}/bin|" make.sh
+      sed -i "s|aarch64-linux-gnu|${TARGET_NAME}|g" make.sh
+      sed -i "s|../rkbin|$(get_build_dir rkbin)|" make.sh
+      ./make.sh ${UBOOT_DTB}
+      echo "done"
   else
     [ "${BUILD_WITH_DEBUG}" = "yes" ] && PKG_DEBUG=1 || PKG_DEBUG=0
     [ -n "$ATF_PLATFORM" ] &&  cp -av $(get_build_dir atf)/bl31.bin .
@@ -53,15 +77,19 @@ make_target() {
 }
 
 makeinstall_target() {
+    echo "install target___"
     mkdir -p $INSTALL/usr/share/bootloader
+        echo "find target___"
+
     # Only install u-boot.img et al when building a board specific image
     if [ -n "$UBOOT_SYSTEM" ]; then
       find_file_path bootloader/install && . ${FOUND_PATH}
     fi
+          echo "can target___"
 
     # Always install the update script
     find_file_path bootloader/update.sh && cp -av ${FOUND_PATH} $INSTALL/usr/share/bootloader
-
+    echo "install canupdate"
     # Always install the canupdate script
     if find_file_path bootloader/canupdate.sh; then
       cp -av ${FOUND_PATH} $INSTALL/usr/share/bootloader
