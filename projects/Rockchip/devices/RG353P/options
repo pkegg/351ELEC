@@ -9,8 +9,8 @@
         TARGET_KERNEL_ARCH="arm64"
         TARGET_PATCH_ARCH="aarch64"
         TARGET_FLOAT="hard"
-        TARGET_CPU="cortex-a35"
-        TARGET_CPU_FLAGS="+crc+fp+simd"
+        TARGET_CPU="cortex-a55"
+        TARGET_CPU_FLAGS="+crc+crypto+fp+simd"
         TARGET_FPU="fp-armv8"
         TARGET_FEATURES="64bit"
         ;;
@@ -18,9 +18,9 @@
         TARGET_KERNEL_ARCH="arm64"
         TARGET_PATCH_ARCH="aarch64"
         TARGET_FLOAT="hard"
-        TARGET_CPU="cortex-a35"
+        TARGET_CPU="cortex-a55"
         TARGET_CPU_FLAGS="+crc"
-        TARGET_FPU="crypto-neon-fp-armv8"
+        TARGET_FPU="neon-fp-armv8"
         TARGET_FEATURES="32bit"
         ;;
     esac
@@ -30,20 +30,17 @@
 
   # Additional kernel make parameters (for example to specify the u-boot loadaddress)
     KERNEL_MAKE_EXTRACMD=""
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351mp-linux.dtb"
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351mp-linux-oc.dtb"
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351mp-linux-timing_fix.dtb"
-    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3326-rg351mp-linux-oc-timing_fix.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3566-linux.dtb"
 
   # Mali GPU family
-    MALI_FAMILY="g31"
+    MALI_FAMILY="t86x"
     OPENGLES="libmali"
 
   # kernel serial console
-    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:0 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"
+    EXTRA_CMDLINE="console=ttyFIQ0 console=tty0 net.iframes=0 fbcon=rotate:3 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"
 
-    LINUX="RG351MP"
-    UBOOT_SYSTEM="rg351mp"
+    LINUX="RG353P"
+    UBOOT_SYSTEM="rg353p"
 
   # additional packages to install
     ADDITIONAL_PACKAGES="dtc amberelec"
@@ -74,7 +71,7 @@
   PULSEAUDIO_SUPPORT="yes"
 
   # build and install bluetooth support (yes / no)
-  BLUETOOTH_SUPPORT="no"
+  BLUETOOTH_SUPPORT="yes"
 
   # build and install Avahi (Zeroconf) daemon (yes / no)
   AVAHI_DAEMON="no"
