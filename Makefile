@@ -32,6 +32,8 @@ world:
 	DEVICE=RG351MP ARCH=aarch64 ./scripts/build_distro
 	DEVICE=RG552 ARCH=arm ./scripts/build_distro
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
+	DEVICE=RG353P ARCH=arm ./scripts/build_distro
+	DEVICE=RG353P ARCH=aarch64 ./scripts/build_distro
 
 RG351P:
 	DEVICE=RG351P ARCH=arm ./scripts/build_distro
@@ -48,6 +50,9 @@ RG351MP:
 RG552:
 	DEVICE=RG552 ARCH=arm ./scripts/build_distro
 	DEVICE=RG552 ARCH=aarch64 ./scripts/build_distro
+RG353P:
+	DEVICE=RG353P ARCH=arm ./scripts/build_distro
+	DEVICE=RG353P ARCH=aarch64 ./scripts/build_distro
 
 update:
 	DEVICE=RG552 ARCH=aarch64 ./scripts/update_packages

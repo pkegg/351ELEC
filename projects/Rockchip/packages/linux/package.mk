@@ -10,6 +10,10 @@ if [[ "$DEVICE" =~ RG351 ]]; then
 elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_VERSION="69e62fbbf5074c999553d8496403677bb7b5f27b"
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/$PKG_VERSION.tar.gz"
+elif [[ "$DEVICE" =~ RG353P ]]; then
+  PKG_VERSION="deb0712b5f3a79b21660e7997c4349333487af6b"
+  PKG_URL="git@github.com:pkegg/RG353P_kernel.git"
+
 fi
 
 PKG_LICENSE="GPL"
