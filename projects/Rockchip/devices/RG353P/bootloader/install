@@ -2,6 +2,7 @@
 # Copyright (C) 2017-present Team LibreELEC (https://libreelec.tv)
 
 PKG_RKBIN="$(get_build_dir rkbin)"
+echo "rkbin: $PKG_RKBIN"
 PKG_SOC="rk356x"
 
 UBOOT_CONFIG="rk3568_defconfig"

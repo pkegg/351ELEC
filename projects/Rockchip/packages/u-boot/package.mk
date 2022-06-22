@@ -29,10 +29,11 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/u-boot/u-boot.git"
 elif [[ "$DEVICE" =~ RG353P ]]; then
-  PKG_VERSION="dfd1bcb"
+  PKG_VERSION="afab29d9258edd48b171ff398898d05469000fe3"
   PKG_GIT_CLONE_BRANCH=main
-  PKG_URL="https://github.com/JustEnoughLinuxOS/rk356x-uboot.git"
+  PKG_URL="git@github.com:dhwz/RG353P_uboot.git"
 fi
+PKG_TOOLCHAIN=manual
 
 
 post_patch() {
@@ -56,15 +57,32 @@ make_target() {
       echo "woooooord: $UBOOT_DTB $TOOLCHAIN"
 
       cd ${PKG_BUILD}
-      git checkout -- include/configs/rockchip-common.h
-      sed -i "s|JELOS|AMBRELC/bin|" make.sh
+      git checkout -- .
 
-      git checkout -- make.sh
-
-      echo "Making for GPT (${UBOOT_DTB})..."
+      #echo "Making for GPT (${UBOOT_DTB})..."
       sed -i "s|TOOLCHAIN_ARM64=.*|TOOLCHAIN_ARM64=${TOOLCHAIN}/bin|" make.sh
       sed -i "s|aarch64-linux-gnu|${TARGET_NAME}|g" make.sh
       sed -i "s|../rkbin|$(get_build_dir rkbin)|" make.sh
+      sed -i "s|-Werror||" Makefile
+      rm -f arch/arm/dts/rk3368-px*
+      rm -f arch/arm/dts/rk3368-sheep*
+      rm -f arch/arm/dts/rk3368-lion*
+      rm -f arch/arm/dts/rk3126-evb.*
+      rm -f arch/arm/dts/rk3368-px-lion*
+      rm -f arch/arm/dts/rk3368-geekbox*
+      rm -f arch/arm/dts/rk3368-radxarock*
+
+      sed -i "s|rk3126-evb.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-lion.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-sheep.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-geekbox.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-radxarock.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-px5-evb.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3036-sdk.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3188-radxarock.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3328-evb.dtb||" arch/arm/dts/Makefile
+
+
       ./make.sh ${UBOOT_DTB}
       echo "done"
   else
