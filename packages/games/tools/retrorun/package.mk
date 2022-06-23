@@ -16,8 +16,10 @@ pre_make_target() {
 }
 
 pre_configure_target() {
-  CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
-  CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
+  #TODO: Check if this just allows build or works
+  #CFLAGS+=" -I$(get_build_dir libdrm)/include/drm"
+  #CFLAGS+=" -I$(get_build_dir linux)/include/uapi"
+  #END TODO
   CFLAGS+=" -I$(get_build_dir linux)/tools/include"
 }
 
