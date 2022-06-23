@@ -12,7 +12,7 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_URL="https://github.com/AmberELEC/kernel_rg552/archive/$PKG_VERSION.tar.gz"
 elif [[ "$DEVICE" =~ RG353P ]]; then
   PKG_VERSION="deb0712b5f3a79b21660e7997c4349333487af6b"
-  PKG_URL="git@github.com:pkegg/RG353P_kernel.git"
+  PKG_URL="https://github.com/pkegg/RG353P_kernel/archive/$PKG_VERSION.tar.gz"
 
 fi
 
