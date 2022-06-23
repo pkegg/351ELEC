@@ -28,6 +28,9 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_GIT_CLONE_SINGLE="yes"
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/u-boot/u-boot.git"
+elif [[ "$DEVICE" =~ RG353 ]]; then
+  PKG_VERSION="afab29d9258edd48b171ff398898d05469000fe3"
+  PKG_URL="https://github.com/pkegg/RG353P_uboot.git"
 fi
 
 post_patch() {
