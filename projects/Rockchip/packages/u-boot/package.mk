@@ -29,7 +29,7 @@ elif [[ "$DEVICE" =~ RG552 ]]; then
   PKG_GIT_CLONE_DEPTH="1"
   PKG_URL="https://github.com/u-boot/u-boot.git"
 elif [[ "$DEVICE" =~ RG353 ]]; then
-  PKG_VERSION="afab29d9258edd48b171ff398898d05469000fe3"
+  PKG_VERSION="555361a3c77e48a151b8ebd5bd43ca9171040ba8"
   PKG_URL="https://github.com/pkegg/RG353P_uboot.git"
 fi
 
@@ -46,6 +46,37 @@ make_target() {
   if [ -z "$UBOOT_SYSTEM" ]; then
     echo "UBOOT_SYSTEM must be set to build an image"
     echo "see './scripts/uboot_helper' for more information"
+  elif [ "$DEVICE" == "RG353P" ]
+    then
+      UBOOT_DTB="rk3566"
+      cd ${PKG_BUILD}
+      git checkout -- .
+
+      #echo "Making for GPT (${UBOOT_DTB})..."
+      sed -i "s|TOOLCHAIN_ARM64=.*|TOOLCHAIN_ARM64=${TOOLCHAIN}/bin|" make.sh
+      sed -i "s|aarch64-linux-gnu|${TARGET_NAME}|g" make.sh
+      sed -i "s|../rkbin|$(get_build_dir rkbin)|" make.sh
+      sed -i "s|-Werror||" Makefile
+      rm -f arch/arm/dts/rk3368-px*
+      rm -f arch/arm/dts/rk3368-sheep*
+      rm -f arch/arm/dts/rk3368-lion*
+      rm -f arch/arm/dts/rk3126-evb.*
+      rm -f arch/arm/dts/rk3368-px-lion*
+      rm -f arch/arm/dts/rk3368-geekbox*
+      rm -f arch/arm/dts/rk3368-radxarock*
+
+      sed -i "s|rk3126-evb.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-lion.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-sheep.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-geekbox.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-radxarock.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3368-px5-evb.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3036-sdk.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3188-radxarock.dtb||" arch/arm/dts/Makefile
+      sed -i "s|rk3328-evb.dtb||" arch/arm/dts/Makefile
+
+      ./make.sh ${UBOOT_DTB}
+      echo "done make target"
   else
     [ "${BUILD_WITH_DEBUG}" = "yes" ] && PKG_DEBUG=1 || PKG_DEBUG=0
     [ -n "$ATF_PLATFORM" ] &&  cp -av $(get_build_dir atf)/bl31.bin .
@@ -77,5 +108,7 @@ makeinstall_target() {
       cp -f $PKG_BUILD/arch/arm/dts/rg351v-uboot.dtb $INSTALL/usr/share/bootloader
     elif [ "$DEVICE" == "RG351MP" ]; then
       cp -f $PKG_BUILD/arch/arm/dts/rg351mp-uboot.dtb $INSTALL/usr/share/bootloader
+    elif [ "$DEVICE" == "RG353P" ]; then
+      cp -f $PKG_BUILD/arch/arm/dts/rk3568-evb.dtb $INSTALL/usr/share/bootloader
     fi
 }
