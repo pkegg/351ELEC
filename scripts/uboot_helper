@@ -50,7 +50,7 @@ devices = {
       'rg552' : { 'dtb' : 'rk3399-rg552-linux.dtb', 'config' : 'evb-rk3399_defconfig' },
     },
     'RG353P' : {
-      'rg353p' : { 'dtb' : 'rk3566-linux.dtb', 'config' : 'odroidgoa_defconfig' },
+      'rg353p' : { 'dtb' : 'rk3566-linux.dtb', 'config' : 'rk3568_defconfig' },
     },
     'RK3328' : {
       'box' : { 'dtb' : 'rk3328-box.dtb', 'config' : 'evb-rk3328_defconfig' },
