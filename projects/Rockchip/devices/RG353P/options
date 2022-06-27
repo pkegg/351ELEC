@@ -30,10 +30,10 @@
 
   # Additional kernel make parameters (for example to specify the u-boot loadaddress)
     KERNEL_MAKE_EXTRACMD=""
-    #FIXME: add back dtb KERNEL_MAKE_EXTRACMD+=" rockchip/rk3566-linux.dtb"
+    KERNEL_MAKE_EXTRACMD+=" rockchip/rk3566.dtb"
 
   # Mali GPU family
-    MALI_FAMILY="t86x"
+    MALI_FAMILY="bifrost-g52"
     OPENGLES="libmali"
 
   # kernel serial console
