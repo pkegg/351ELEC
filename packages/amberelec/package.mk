@@ -50,6 +50,9 @@ makeinstall_target() {
     cp $INSTALL/usr/config/distribution/configs/distribution.conf.351v $INSTALL/usr/config/distribution/configs/distribution.conf
   elif [ "$DEVICE" == "RG552" ]; then
     cp $INSTALL/usr/config/distribution/configs/distribution.conf.552  $INSTALL/usr/config/distribution/configs/distribution.conf
+  elif [ "$DEVICE" == "RG353P" ]; then
+    #FIXME: add a distribution.conf RG353P
+    cp $INSTALL/usr/config/distribution/configs/distribution.conf.552  $INSTALL/usr/config/distribution/configs/distribution.conf
   fi
 
   sed -i "s/system.hostname=AmberELEC/system.hostname=${DEVICE}/g" $INSTALL/usr/config/distribution/configs/distribution.conf
