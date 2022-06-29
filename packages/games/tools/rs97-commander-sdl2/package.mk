@@ -20,7 +20,7 @@ pre_configure_target() {
   fi
   sed -i "s|sdl2-config|${SYSROOT_PREFIX}/usr/bin/sdl2-config|" Makefile
 
-  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]; then
+  if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG353" ] || [ "${DEVICE}" = "RG351MP" ]; then
     PKG_MAKE_OPTS_TARGET=" RG351V=1 CC=$CXX"
   elif [ "${DEVICE}" = "RG552" ]; then
     PKG_MAKE_OPTS_TARGET=" RG552=1 CC=$CXX"

@@ -12,7 +12,7 @@ PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_LONGDESC="Support library for the ODROID-GO Advance "
 PKG_TOOLCHAIN="make"
 
-if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG351MP" ]; then
+if [ "${DEVICE}" = "RG351V" ] || [ "${DEVICE}" = "RG353" ] || [ "${DEVICE}" = "RG351MP" ]; then
   PKG_PATCH_DIRS="rotation"
 elif [ "${DEVICE}" = "RG552" ]; then
   PKG_PATCH_DIRS="audio"

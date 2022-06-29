@@ -22,7 +22,7 @@ makeinstall_target() {
       RESOLUTION="1920x1152"
     elif [[ "$DEVICE" == "RG351P" ]]; then
       RESOLUTION="480x320"
-    elif [[ "$DEVICE" == "RG351V" || "$DEVICE" == "RG351MP" ]]; then
+    elif [[ "$DEVICE" == "RG351V" || "$DEVICE" == "RG351MP" || "$DEVICE" == "RG353" ]]; then
       RESOLUTION="640x480"
     fi
     # Cleanup the directories of images not needed on device.  For non-552 devices, this saves ~100MB
