@@ -38,9 +38,9 @@ make world
 ```
 
 The make world process will build a 32bit and 64bit userland and generate a 64bit image which will be located in AmberELEC/release. Follow the installation steps to write your image to a microSD.
-It will build for the RG351P/M, RG351V, RG351MP and for the RG552.
+It will build for the RG351P/M, RG351V, RG351MP, RG353 and for the RG552.
 
-To create the image for the RG351P/M just ``make RG351P``, and just for the RG351V ``make RG351V``, and just for the RG351MP ``make RG351MP``, and just for the RG552 ``make RG552``.
+To create the image for the RG351P/M just ``make RG351P``, for the RG351V it's ``make RG351V``, for the RG351MP it's ``make RG351MP``, for the RG353 it's ``make RG353``, and for the RG552 it's ``make RG552``.
 
 ## Building from Source - Docker
 Building with Docker simplifies the build process as any dependencies, with the exception of `make`, are contained within the docker image - all CPU/RAM/Disk/build time requirements remain similar. 
